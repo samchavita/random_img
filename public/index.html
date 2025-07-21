@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Random Image Refresh</title>
+  <style>
+    body { text-align: center; font-family: sans-serif; margin-top: 0; }
+    img { height: auto; width: auto; max-height: 800px; min-height: 700px; margin-top: 20px; }
+    button { padding: 10px 20px; font-size: 18px; }
+  </style>
+</head>
+<body>
+    <!-- <button onclick="refreshImage()" style="font-size: smaller;">Refresh Image</button> -->
+    <!-- <br> -->
+     <!-- <div style="display: flex; justify-content: center; align-items: center; flex-direction: column; "> -->
+        <img id="randomImage" onclick="refreshImage()" src="" alt="Random Image"/>
+     <!-- </div> -->
+
+  <script>
+    async function refreshImage() {
+      try {
+        const res = await fetch('/random-image');
+        const imagePath = await res.text();
+        document.getElementById('randomImage').src = imagePath + '?t=' + new Date().getTime(); // Prevent cache
+      } catch (err) {
+        alert('Error loading image');
+        console.error(err);
+      }
+    }
+
+    // Load one on page load
+    window.onload = refreshImage;
+  </script>
+</body>
+</html>
