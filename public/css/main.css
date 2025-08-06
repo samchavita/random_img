@@ -1,0 +1,135 @@
+    body {
+        text-align: center;
+        font-family: sans-serif;
+        margin-top: 10px;
+    }
+
+    #randomImage {
+        width: 100%;
+        height: auto;
+        max-height: 90vh;
+        display: block;
+        margin: auto auto;
+        object-fit: contain;
+    }
+
+
+    button {
+        padding: 5px 10px;
+        font-size: 18px;
+    }
+
+    #timer {
+        display: inline;
+        font-size: 18px;
+        margin-bottom: 20px;
+        transition: transform 0.2s ease-in-out;
+    }
+
+    @keyframes heartbeat {
+
+        0%,
+        100% {
+            transform: scale(1);
+        }
+
+        14% {
+            transform: scale(1.3);
+        }
+
+        28% {
+            transform: scale(1);
+        }
+
+        42% {
+            transform: scale(1.3);
+        }
+
+        70% {
+            transform: scale(1);
+        }
+    }
+
+    .heartbeat {
+        animation: heartbeat 1s infinite;
+        color: red;
+        /* Optional: add more drama */
+    }
+
+    .side-padding {
+        background-color: rgba(255, 255, 255, 0.021);
+        
+    }
+
+    .scale-down-center-left {
+        /* transition: transform 0.5s ease-out; */
+        animation: scale-down-center-left 0.5s ease;
+    }
+
+    @keyframes scale-down-center-left {
+        from {
+            transform: translate(0, 0) scale(1);
+        }
+        to {
+            transform: translate(-50%, 0) scale(0.01);
+        }
+    }
+
+    .scale-up-left-center {
+        /* transition: transform 0.5s ease-out; */
+        animation: scale-up-left-center 0.5s ease;
+    }
+
+    @keyframes scale-up-left-center {
+        from {
+            transform: translate(-50%, 0) scale(0.01);
+        }
+        to {
+            transform: translate(0, 0) scale(1);
+        }
+    }
+
+    .scale-down-center-right {
+        /* transition: transform 0.5s ease-out; */
+        animation: scale-down-center-right 0.5s ease;
+    }
+
+    @keyframes scale-down-center-right {
+        from {
+            transform: translate(0, 0) scale(1);
+        }
+        to {
+            transform: translate(50%, 0) scale(0.01);
+        }
+    }
+
+    .scale-up-right-center {
+        /* transition: transform 0.5s ease-out; */
+        animation: scale-up-right-center 0.5s ease;
+    }
+
+    @keyframes scale-up-right-center {
+        from {
+            transform: translate(50%, 0) scale(0.01);
+        }
+        to {
+            transform: translate(0, 0) scale(1);
+        }
+    }
+
+
+    .change-image-button{
+        font-size: xx-large;
+        cursor: pointer;
+        color: #ffffff;
+        transition: font-size 0.1s ease;
+    }
+
+    .change-image-button:hover {
+        color: #0056b3;
+        font-size: xxx-large;
+    }
+
+    .timer-buttons {
+        margin: auto 5px;
+    }

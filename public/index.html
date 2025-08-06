@@ -1,194 +1,96 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="dark">
+
 <head>
   <meta charset="UTF-8">
   <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous"> -->
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="js/bootstrap.bundle.min.js">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-
+  <script src="js/main.js"></script>
+  <link rel="stylesheet" href="css/main.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Random Image Refresh</title>
-  <style>
-    body { text-align: center; font-family: sans-serif; margin-top: 10px; }
-    #randomImage { height: 750px; width: auto;}
-    button { padding: 5px 10px; font-size: 18px; }
-
-    #timer {
-      display: inline;
-      font-size: 18px;
-      margin-bottom: 20px;
-      transition: transform 0.2s ease-in-out;
-    }
-
-    @keyframes heartbeat {
-      0%, 100% {
-        transform: scale(1);
-      }
-      14% {
-        transform: scale(1.3);
-      }
-      28% {
-        transform: scale(1);
-      }
-      42% {
-        transform: scale(1.3);
-      }
-      70% {
-        transform: scale(1);
-      }
-    }
-
-    .heartbeat {
-      animation: heartbeat 1s infinite;
-      color: red; /* Optional: add more drama */
-    }
-    
-  </style>
 </head>
-<body> 
 
-  <!-- <div>
-    <div id="timer">01:00</div>
-    <button onclick="startTimer()">Start Timer</button>
-  </div> -->
+<body>
+
   <div class="container text-center">
     <div class="row">
-    <div class="row">
       <div class="col">
-        <!-- 1 of 3 -->
+        <div class="row" style="height: 40%;">
+
+        </div>
+        <div class="row" style="height: 20%;">
+          <div class="col" style="margin-top: auto; margin-bottom: auto;">
+            <i class="bi bi-arrow-left-circle change-image-button" onclick="refreshImage(direction='previous')"></i>
+          </div>
+        </div>
+        <div class="row" style="height: 40%;">
+        </div>
       </div>
-      <div class="col">
-        <div class="row">
-          <div id="timer" class="col">00:01:00</div>
-          <!-- <div class="col"> -->
-            <div class="col">
-              <i id="play_button" class="bi bi-play-fill" style="color: green; display: inline;" onclick="start_timer()"></i>
-              <i id="pause_button" class="bi bi-pause-fill" style="color: orange; display: none;" onclick="pause_timer()"></i>
+      <div class="col-9">
+        <div class="container text-center">
+          <div class="row">
+            <div class="row">
+              <div class="col">
+                <!-- 1 of 3 -->
+              </div>
+              <div class="col">
+                <div class="row">
+                  <div id="timer" class="col">00:01:00</div>
+                  <!-- <div class="col"> -->
+                  <div class="col">
+                    <i id="play_button" class="bi bi-play-fill timer-buttons" style="color: green; display: inline;"
+                      onclick="start_timer()"></i>
+
+                    <i id="pause_button" class="bi bi-pause-fill timer-buttons" style="color: orange; display: none;"
+                      onclick="pause_timer()"></i>
+
+                    <i class="bi bi-arrow-counterclockwise timer-buttons" style="color: blue; display: inline;"
+                      onclick="reset_timer()"></i>
+                  </div>
+                  <!-- <div class="col">
+                  </div> -->
+                  <!-- </div> -->
+                </div>
+              </div>
+
+              <div class="col">
+                <!-- 3 of 3 -->
+              </div>
             </div>
-            <div class="col">
-              <i class="bi bi-arrow-counterclockwise" style="color: blue; display: inline;" onclick="reset_timer()"></i>
+          </div>
+
+          <div class="container text-center">
+            <div class="row">
+              <div class="col" style="height: 90vh; align-content: center;">
+                <span>
+                  <img id="randomImage" class="" onclick="refreshImage(direction='next')" src="" alt="Image not found."/>
+                </span>
+              </div>
             </div>
-          <!-- </div> -->
+          </div>
         </div>
       </div>
 
       <div class="col">
-        <!-- 3 of 3 -->
+        <div class="row" style="height: 40%;">
+
+        </div>
+        <div class="row" style="height: 20%;">
+          <div class="col" style="margin-top: auto; margin-bottom: auto;">
+            <i class="bi bi-arrow-right-circle change-image-button" onclick="refreshImage(direction='next')"></i>
+          </div>
+        </div>
+        <div class="row" style="height: 40%;">
+        </div>
       </div>
     </div>
   </div>
-  
-  <div class="container text-center">
-    <div class="row">
-      <div class="col">
-        <img id="randomImage" onclick="refreshImage()" src="" alt="Random Image"/>
-      </div>
-    </div>
-  </div>
 
-  <script>
-    var ticking_audio = new Audio('ticking.mp3');
-
-    let countdown;
-    let duration = 60; // in seconds
-    let timeLeft = duration;
-    let isRunning = false;
-    let startedTimer = false;
-
-    function updateDisplay() {
-      const minutes = Math.floor(timeLeft / 60);
-      const seconds = timeLeft % 60;
-      document.getElementById('timer').textContent =
-        `00:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-    }
-
-    function timer_check() {
-        if (timeLeft == 9) {
-          document.getElementById('timer').classList.add('heartbeat');
-          ticking_audio.currentTime = ticking_audio.currentTime - 0.5; // Reset audio to start
-        } 
-
-        if (timeLeft <= 0) {
-          clearInterval(countdown);
-          isRunning = false;
-          document.getElementById('timer').classList.remove('heartbeat');
-          ticking_audio.pause();
-        }else {
-          timeLeft--;
-          updateDisplay();
-        }
-    }
-
-    function start_timer() {
-
-      document.getElementById('play_button').style.display = 'none';
-      document.getElementById('pause_button').style.display = 'inline';
-      // if (isRunning) return; // Prevent multiple intervals
-      //   isRunning = true;
-
-      if (startedTimer){
-        play_timer();
-        return;
-      }
-      
-
-      ticking_audio.currentTime = 0; // Reset audio to start
-      startedTimer = true;
-
-      ticking_audio.play().catch(err => console.error('Ticking audio play error:', err));
-      document.getElementById('play_button').style.display = 'none';
-      document.getElementById('pause_button').style.display = 'inline';
-
-      countdown = setInterval(timer_check, 1000);
-    }
-
-    function play_timer() {
-      ticking_audio.play();
-      countdown = setInterval(timer_check, 1000);
-      isRunning = true;
-    }
-
-    function pause_timer() {
-      ticking_audio.pause();
-      clearInterval(countdown);
-      document.getElementById('play_button').style.display = 'inline';
-      document.getElementById('pause_button').style.display = 'none';
-      isRunning = false;
-    }
-
-    function reset_timer() {
-      startedTimer = false;
-      ticking_audio.pause();
-      ticking_audio.currentTime = 0;
-
-      clearInterval(countdown);
-      timeLeft = duration;
-      document.getElementById('play_button').style.display = 'inline';
-      document.getElementById('pause_button').style.display = 'none';
-      isRunning = false;
-      updateDisplay();
-    }
-
-    // Optional: initialize display
-    updateDisplay();
-
-    async function refreshImage() {
-      reset_timer()
-
-      try {
-        const res = await fetch('/random-image');
-        const imagePath = await res.text();
-        document.getElementById('randomImage').src = imagePath + '?t=' + new Date().getTime(); // Prevent cache
-      } catch (err) {
-        alert('Error loading image');
-        console.error(err);
-      }
-    }
-
-    // Load one on page load
-    window.onload = refreshImage;
-  </script>
   <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script> -->
 </body>
+
 </html>
